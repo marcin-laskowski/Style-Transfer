@@ -74,8 +74,8 @@ def image_loader(image_name):
     return image.to(device, torch.float)
 
 
-style_img = image_loader("images/picasso.jpg")
-content_img = image_loader("images/dancing.jpg")
+style_img = image_loader("images/dragon.jpg")
+content_img = image_loader("images/athena.jpg")
 
 assert style_img.size() == content_img.size(), \
     "we need to import style and content images of the same size"
@@ -184,15 +184,13 @@ content_layers_default = ['conv_4']
 style_layers_default = ['conv_1', 'conv_2', 'conv_3', 'conv_4', 'conv_5']
 
 
-def get_style_model_and_losses(cnn, normalization_mean, normalization_std,
-                               style_img, content_img,
+def get_style_model_and_losses(cnn, normalization_mean, normalization_std, style_img, content_img,
                                content_layers=content_layers_default,
                                style_layers=style_layers_default):
     cnn = copy.deepcopy(cnn)
 
     # normalization module
-    normalization = Normalization(normalization_mean,
-                                  normalization_std).to(device)
+    normalization = Normalization(normalization_mean, normalization_std).to(device)
 
     # just in order to have an iterable access to or list of content/syle
     # losses
@@ -239,8 +237,7 @@ def get_style_model_and_losses(cnn, normalization_mean, normalization_std,
 
     # now we trim off the layers after the last content and style losses
     for i in range(len(model) - 1, -1, -1):
-        if isinstance(model[i], ContentLoss) or isinstance(model[i],
-                                                           StyleLoss):
+        if isinstance(model[i], ContentLoss) or isinstance(model[i], StyleLoss):
             break
 
     model = model[:(i + 1)]
@@ -272,9 +269,8 @@ def get_input_optimizer(input_img):
 ###############################################################################
 # 9. STYLE TRANSFER FUNCTION
 
-def run_style_transfer(cnn, normalization_mean, normalization_std,
-                       content_img, style_img, input_img, num_steps=300,
-                       style_weight=1000000, content_weight=1):
+def run_style_transfer(cnn, normalization_mean, normalization_std, content_img, style_img,
+                       input_img, num_steps=1200, style_weight=1000000, content_weight=1):
     """Run the style transfer."""
     print('Building the style transfer model..')
     model, style_losses, content_losses = get_style_model_and_losses(cnn, normalization_mean,
