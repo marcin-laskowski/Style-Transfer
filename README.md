@@ -11,5 +11,5 @@ Input pictures:
 
 Output pictures:
 <p align="center">
-  <img width="700" src="https://github.com/mlaskowski17/Style-Transfer/blob/master/images/epochs.jpg">
+  <img width="900" src="https://github.com/mlaskowski17/Style-Transfer/blob/master/images/epochs.jpg">
 </p>
